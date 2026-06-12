@@ -39,8 +39,6 @@ export default function CourseDetailPage() {
       </section>
 
       <section className="stack-section px-4 py-8">
-        <img src={course.image} alt={course.title} className="h-52 w-full rounded-2xl object-cover" />
-
         <div className="stack-section-header-tight rounded-lg border border-border-alt bg-surface p-4 shadow-md">
           <h3 className="text-sm font-bold text-navy">Programme Details</h3>
           {[
