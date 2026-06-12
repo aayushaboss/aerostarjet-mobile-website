@@ -292,6 +292,8 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
     }
 
     const syncSlideWidth = () => {
+      if (scroller.dataset.dragging === 'true' || scroller.dataset.animating === 'true') return
+
       const styles = getComputedStyle(scroller)
       const paddingInline =
         (Number.parseFloat(styles.paddingLeft) || 0) + (Number.parseFloat(styles.paddingRight) || 0)
@@ -356,7 +358,7 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
                 hasDragged.current = false
               }
             }}
-            className="why-choose-carousel w-full min-w-0 cursor-grab overscroll-x-contain scrollbar-hide touch-pan-x select-none [&_*]:[webkit-user-drag:none] [&_img]:pointer-events-none"
+            className="why-choose-carousel w-full min-w-0 cursor-grab overflow-x-hidden overflow-y-hidden overscroll-x-contain scrollbar-hide touch-pan-x select-none [&_*]:[webkit-user-drag:none] [&_img]:pointer-events-none"
           >
             <div className="why-choose-track-inner flex w-max flex-nowrap">
               {items.map((item) => (
