@@ -268,7 +268,7 @@ export default function HomePage() {
         <TestimonialsCarousel testimonials={testimonials} />
       </section>
 
-      <section className="stack-section bg-bg-grey px-4 py-8">
+      <section id="enquiry" className="stack-section bg-bg-grey px-4 py-8">
         <div className="stack-section-header text-center">
           <p className="text-overline font-semibold uppercase tracking-widest text-primary-alt">
             {homepageAdmissionCopy.overline}

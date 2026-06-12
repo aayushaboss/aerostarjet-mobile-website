@@ -1,5 +1,6 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
+import PreviewLink from '../components/layout/PreviewLink'
 import { EnrollCtaLink } from '../components/ui/EnrollCtaButton'
 import CtaBanner from '../components/sections/CtaBanner'
 import CurriculumAccordion from '../components/ui/CurriculumAccordion'
@@ -53,9 +54,18 @@ export default function CourseDetailPage() {
               className="flex items-center justify-between gap-2 border-b border-border-alt py-2 last:border-b-0"
             >
               <span className="shrink-0 text-[11px] text-muted">{label}</span>
-              <span className="max-w-[58%] text-right text-[11px] font-semibold leading-snug text-navy">
-                {value}
-              </span>
+              {label === 'Fees Structure' ? (
+                <PreviewLink
+                  to="/#enquiry"
+                  className="max-w-[58%] text-right text-[11px] font-semibold leading-snug text-primary hover:underline"
+                >
+                  Contact Now
+                </PreviewLink>
+              ) : (
+                <span className="max-w-[58%] text-right text-[11px] font-semibold leading-snug text-navy">
+                  {value}
+                </span>
+              )}
             </div>
           ))}
           <div className="course-card__cta-wrap">
