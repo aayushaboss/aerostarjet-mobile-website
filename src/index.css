@@ -10289,3 +10289,22 @@ html[data-preview='true'][data-preview-width='1200'] .placements-marquee-track {
 .course-category-card__media {
   overflow: hidden;
 }
+
+/* ==========================================================================
+   Course filter tags — prevent hover lift/shadow clipping (append zone)
+   ========================================================================== */
+.courses-filters .horizontal-scroll,
+.courses-filters .course-categories-wrap {
+  padding-top: var(--card-hover-lift-room);
+  padding-bottom: 12px;
+}
+
+html[data-preview='true'][data-preview-width='375'] .courses-filters .horizontal-scroll,
+html[data-preview='true'][data-preview-width='375'] .courses-filters .course-categories-wrap,
+html[data-preview='true'][data-preview-width='768'] .courses-filters .horizontal-scroll,
+html[data-preview='true'][data-preview-width='768'] .courses-filters .course-categories-wrap,
+html[data-preview='true'][data-preview-width='1200'] .courses-filters .horizontal-scroll,
+html[data-preview='true'][data-preview-width='1200'] .courses-filters .course-categories-wrap {
+  padding-top: var(--card-hover-lift-room);
+  padding-bottom: 12px;
+}
