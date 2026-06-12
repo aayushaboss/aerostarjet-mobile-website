@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import PageLayout from '../components/layout/PageLayout'
 import CourseCard from '../components/ui/CourseCard'
@@ -27,6 +27,11 @@ function getPrimaryCategory(course: Course): CourseCategory {
   }
 
   return course.categories[0]
+}
+
+function isElementVisible(element: Element) {
+  const style = window.getComputedStyle(element)
+  return style.display !== 'none' && style.visibility !== 'hidden'
 }
 
 export default function CoursesPage() {
@@ -68,6 +73,38 @@ export default function CoursesPage() {
   const displayedCourseCount =
     activeCategory === 'all' ? courses.length : filteredCourses.length
 
+  useEffect(() => {
+    if (activeCategory === 'all') return
+
+    const frame = requestAnimationFrame(() => {
+      const filtersRoot = document.querySelector('.courses-filters')
+      if (!filtersRoot) return
+
+      const scrollRow = filtersRoot.querySelector('.course-categories-scroll')
+      const wrapRow = filtersRoot.querySelector('.course-categories-wrap')
+      const visibleRow =
+        scrollRow && isElementVisible(scrollRow)
+          ? scrollRow
+          : wrapRow && isElementVisible(wrapRow)
+            ? wrapRow
+            : null
+
+      if (!visibleRow) return
+
+      const chip = visibleRow.querySelector<HTMLElement>(`[data-category-id="${activeCategory}"]`)
+      if (!chip) return
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      chip.scrollIntoView({
+        inline: 'center',
+        block: 'nearest',
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      })
+    })
+
+    return () => cancelAnimationFrame(frame)
+  }, [activeCategory])
+
   return (
     <PageLayout>
       <section className="courses-hero-section relative overflow-hidden bg-primary-alt px-4 text-surface">
@@ -105,6 +142,7 @@ export default function CoursesPage() {
                   <button
                     key={category.id}
                     type="button"
+                    data-category-id={category.id}
                     onClick={() => setActiveCategory(category.id)}
                     className={`site-tag inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border px-1.5 py-0.5 text-xs font-medium leading-none shadow-sm ${
                       isActive
@@ -136,6 +174,7 @@ export default function CoursesPage() {
                 <button
                   key={`wrap-${category.id}`}
                   type="button"
+                  data-category-id={category.id}
                   onClick={() => setActiveCategory(category.id)}
                   className={`site-tag inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border px-1.5 py-0.5 text-xs font-medium leading-none shadow-sm ${
                     isActive

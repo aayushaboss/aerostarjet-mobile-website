@@ -10308,3 +10308,8 @@ html[data-preview='true'][data-preview-width='1200'] .courses-filters .course-ca
   padding-top: var(--card-hover-lift-room);
   padding-bottom: 12px;
 }
+
+/* Course filter chips — keep active chip inset from horizontal scroll edges */
+.courses-filters .horizontal-scroll .site-tag {
+  scroll-margin-inline: 8px;
+}
