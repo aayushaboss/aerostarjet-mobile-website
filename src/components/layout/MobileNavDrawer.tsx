@@ -28,11 +28,11 @@ export default function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps)
   return (
     <>
       <div
-        className="mobile-nav-backdrop fixed inset-0 z-[65] bg-navy/60 backdrop-blur-sm"
+        className="mobile-nav-backdrop fixed inset-0 z-[80] bg-navy/60 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
-      <nav className="mobile-nav-drawer fixed right-0 top-0 z-[70] flex h-full w-[min(320px,85vw)] flex-col bg-surface shadow-2xl">
+      <nav className="mobile-nav-drawer fixed right-0 top-0 z-[90] flex h-full w-[min(320px,85vw)] flex-col bg-surface shadow-2xl">
         <div className="flex min-h-12 items-center justify-between border-b border-border px-4">
           <span className="text-body-sm font-semibold text-navy">Menu</span>
           <button
