@@ -53,7 +53,9 @@ export type Testimonial = {
   role: string
   quote: string
   initial: string
-  videoUrl: string
+  videoUrl?: string
+  posterUrl?: string
+  instagramUrl?: string
 }
 
 export type PlacementStory = {
@@ -61,6 +63,12 @@ export type PlacementStory = {
   role: string
   image?: string
   imageAlt?: string
+}
+
+export type AlumniPlacementPhoto = {
+  id: string
+  src: string
+  alt: string
 }
 
 export type FaqItem = { question: string; answer: string }
@@ -99,7 +107,7 @@ export const heroPartnerLogoSlots = [
   { id: 'partner-taj', alt: 'Taj Hotels', src: assets.hiringPartnerTaj, scale: 1.0 },
   { id: 'partner-marriott', alt: 'Marriott', src: assets.hiringPartnerMarriott, scale: 0.94 },
   { id: 'partner-itc-hotels', alt: 'ITC Hotels', src: assets.hiringPartnerItcHotels, scale: 1.06 },
-  { id: 'partner-radisson', alt: 'Radisson Hotels and Resorts', src: assets.hiringPartnerRadisson, scale: 0.9 },
+  { id: 'partner-radisson', alt: 'Radisson Blu', src: assets.hiringPartnerRadisson, scale: 0.9 },
 ] as const
 
 export const contactCopy = {
@@ -117,6 +125,14 @@ export const contactCopy = {
     instagram: '@aerostarofficial',
     youtube: '/UCW21WU2MSsuw8-jE6LPAkDA',
   },
+} as const
+
+export const founderCopy = {
+  overline: 'OUR FOUNDER',
+  name: 'Dr. Sheetal Jadeja',
+  title: 'Founder, Aerostar Aviation Academy',
+  description:
+    'Dr. Sheetal Jadeja is an edupreneur and aviation pioneer bridging the gap between traditional education and real-world employability. Founder of Aerostar Aviation Academy, Arrivo Education, and Greenwood International School, with 70% of Aerostar alumni placed at airports nationwide. A Times of India Women Entrepreneur Award winner who believes degrees open doors — skills build careers.',
 } as const
 
 export const aboutCopy = {
@@ -208,15 +224,30 @@ export const infrastructureCopy = {
   ],
   cta: 'Infrastructure',
   gallery: [
-    { src: assets.aboutImage, alt: 'Aerostar academy training centre' },
-    { src: assets.heroStudent, alt: 'Aviation training at Aerostar' },
-    { src: assets.courseCchm, alt: 'Cabin crew mock aircraft training' },
-    { src: assets.courseAam, alt: 'Aviation and hospitality classroom' },
-    { src: assets.courseTtm, alt: 'Travel and tourism training lab' },
-    { src: assets.aboutImage, alt: 'Professional academy infrastructure' },
-    { src: assets.courseAam, alt: 'Computer lab and learning facilities' },
-    { src: assets.heroStudent, alt: 'Mock aircraft training environment' },
-    { src: assets.courseTtm, alt: 'Grooming and personality development room' },
+    {
+      src: assets.infrastructureReception,
+      alt: 'Aerostar Aviation Academy reception with backlit desk, success stories wall, and aviation-themed displays',
+    },
+    {
+      src: assets.infrastructureMeetingPods,
+      alt: 'Glass-walled meeting pods and collaborative training spaces at Aerostar Aviation Academy',
+    },
+    {
+      src: assets.infrastructureClassroom,
+      alt: 'Modern aviation classroom with projector, branded desks, and Dream Learn Succeed wall posters',
+    },
+    {
+      src: assets.infrastructureCafe,
+      alt: 'Aerostar Café hospitality training area with service counter, seating, and café equipment',
+    },
+    {
+      src: assets.infrastructureReceptionLobby,
+      alt: 'Spacious Aerostar reception lobby with waiting area, mission panel, and computer lab beyond',
+    },
+    {
+      src: assets.infrastructureMockCabin,
+      alt: 'Mock aircraft cabin training room with branded seats, aisle lighting, and welcome screen',
+    },
   ],
 } as const
 
@@ -267,7 +298,7 @@ export const courses: Course[] = [
     duration: '14 Months',
     schedule: '5 days a week',
     categories: ['aviation', 'hospitality', 'tours'],
-    image: assets.courseAam,
+    image: assets.courseAhtm,
     programmeLabel: 'Aviation Programme',
     tagline: 'Your gateway to aviation, hospitality and global travel careers',
   },
@@ -283,7 +314,7 @@ export const courses: Course[] = [
     duration: '12 Months',
     schedule: '5 days a week',
     categories: ['aviation', 'tours'],
-    image: assets.courseTtm,
+    image: assets.courseAttm,
     programmeLabel: 'Aviation Programme',
     tagline: 'Master aviation operations and global travel management',
   },
@@ -315,7 +346,7 @@ export const courses: Course[] = [
     duration: '6 Months',
     schedule: '5 days a week',
     categories: ['aviation', 'tours'],
-    image: assets.courseAam,
+    image: assets.courseGstm,
     programmeLabel: 'Ground Staff Programme',
     tagline: 'Build a career in airport operations and travel services',
   },
@@ -331,7 +362,7 @@ export const courses: Course[] = [
     duration: '18 Months',
     schedule: 'Contact admissions for schedule',
     categories: ['aviation'],
-    image: assets.courseAam,
+    image: assets.courseCpl,
     programmeLabel: 'Pilot Training Programme',
     tagline: 'Train to become a commercial airline pilot',
     eligibility: 'A Pass in 12th Std. (Physics, Mathematics & English)',
@@ -357,7 +388,7 @@ export const courses: Course[] = [
     duration: '6 Months',
     schedule: 'Contact admissions for schedule',
     categories: ['aviation'],
-    image: assets.courseAam,
+    image: assets.coursePpl,
     programmeLabel: 'Pilot Training Programme',
     tagline: 'Take your first step into the cockpit',
     eligibility: 'A pass in Class 10 STD',
@@ -382,7 +413,7 @@ export const courses: Course[] = [
     duration: '6 Months',
     schedule: '5 days a week',
     categories: ['hospitality', 'tours'],
-    image: assets.courseTtm,
+    image: assets.courseHtcs,
     programmeLabel: 'Hospitality Programme',
     tagline: 'Excel in hospitality, travel and customer service',
   },
@@ -397,7 +428,7 @@ export const courses: Course[] = [
     duration: '14 Months',
     schedule: '5 days a week',
     categories: ['fashion-interior'],
-    image: assets.courseAam,
+    image: assets.courseInteriorDesigning,
     programmeLabel: 'Interior Designing Programme',
     tagline: 'Design functional and beautiful interior spaces',
   },
@@ -412,7 +443,7 @@ export const courses: Course[] = [
     duration: '14 Months',
     schedule: '5 days a week',
     categories: ['fashion-interior'],
-    image: assets.courseCchm,
+    image: assets.courseFashionDesigning,
     programmeLabel: 'Fashion Designing Programme',
     tagline: 'Build a creative career in fashion design',
   },
@@ -425,9 +456,9 @@ export const hiringPartners = [
 
 export const whyChoose: WhyChooseItem[] = [
   {
-    title: ['Free Placement', 'Assistance'],
+    title: ['100% Placement', 'Assistance'],
     description:
-      'Free Placement Assistance with Domestic Airports, Airlines, Hotels & Travel Companies after your successful completion of course.',
+      '100% Placement Assistance with Domestic Airports, Airlines, Hotels & Travel Companies after your successful completion of course.',
     icon: assets.whyChooseIcon1,
   },
   {
@@ -464,26 +495,31 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       'The communication skill development must be the best training I needed. Aerostar Academy is the best training academy I could have joined to start off with my career. I am thankful for everyone over there, for getting me ready for the real-life.',
-    name: 'Stuti Upadhyay',
-    role: 'Ahmedabad International Airport',
+    name: 'Sahil Baldev',
+    role: 'Customer Service Executive at Air India',
     initial: 'S',
     videoUrl: '/assets/testimonials/stuti-upadhyay.mp4',
+    instagramUrl: 'https://www.instagram.com/reel/DZICM4Kv6sb/?igsh=MW1lazZtOHBkbGtuMA==',
   },
   {
     quote:
       'The experienced and knowledgeable faculty members of Aerostar have helped the most for the real life of aviation industry. The mock-aircraft training and experience of our faculties trained me in the best way for the professional career.',
-    name: 'Mausin Sharfi',
-    role: 'Spice Jet',
-    initial: 'M',
+    name: 'Harshita Kohli',
+    role: 'Customer Service Executive at SpiceJet',
+    initial: 'H',
     videoUrl: '/assets/testimonials/mausin-sharfi.mp4',
+    posterUrl: '/assets/testimonials/harshita-kohli-poster.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/DXZVGEejN8I/?igsh=MTFoYTU5Ymp1OWhmMw==',
   },
   {
     quote:
       'The Aerostar aviation academy certificate and real-life training experience is helping me a lot in standing out from other candidates. The training helped me get prepared for the aviation industry from start, which is why I could successfully achieve my goal faster.',
-    name: 'Ashok Sen',
-    role: 'Ahmedabad International Airport',
-    initial: 'A',
+    name: 'Falak Shah',
+    role: 'Security Executive at Akasa Airlines',
+    initial: 'F',
     videoUrl: '/assets/testimonials/ashok-sen.mp4',
+    posterUrl: '/assets/testimonials/falak-shah-poster.jpg',
+    instagramUrl: 'https://www.instagram.com/reel/DWwPDSTjEcN/?igsh=NjJ6NjJ4MGliNzFp',
   },
 ]
 
@@ -523,6 +559,39 @@ export const placements: PlacementStory[] = [
     role: 'Ahmedabad International Airport',
     image: assets.placementSameerRana,
     imageAlt: 'Sameer Rana placed at Ahmedabad International Airport',
+  },
+]
+
+export const alumniPlacementPhotos: AlumniPlacementPhoto[] = [
+  {
+    id: 'alumni-rajkot',
+    src: assets.alumniRajkotAirport,
+    alt: '12 students got placed at Rajkot Airport in ground staff',
+  },
+  {
+    id: 'alumni-ahmedabad-11',
+    src: assets.alumniAhmedabadAirport11,
+    alt: '11 students got placed at Ahmedabad Airport as ground staff',
+  },
+  {
+    id: 'alumni-ahmedabad-15',
+    src: assets.alumniAhmedabadAirport15,
+    alt: '15 students got placed at Ahmedabad Airport as ground staff',
+  },
+  {
+    id: 'alumni-mumbai-13',
+    src: assets.alumniMumbaiAirport13,
+    alt: '13 students got selected at Mumbai Airport as ground staff',
+  },
+  {
+    id: 'alumni-ahmedabad-10',
+    src: assets.alumniAhmedabadAirport10,
+    alt: '10 students got placed at Ahmedabad Airport as ground staff',
+  },
+  {
+    id: 'alumni-mumbai-6',
+    src: assets.alumniMumbaiAirport6,
+    alt: '6 students got placed at Mumbai Airport as ground staff',
   },
 ]
 
@@ -588,6 +657,19 @@ export const branches: Branch[] = [
     phone: '+91 99798 55568',
   },
 ]
+
+export const applyCopy = {
+  overline: 'Apply',
+  heading: 'Admission application',
+  urgencySubheading: 'New batch starting July 2026',
+  intro:
+    'Apply now to connect with our admissions counsellor and download the full Aerostar course brochure instantly. Our team will contact you within one business day.',
+  submitLabel: 'Apply',
+  successMessage:
+    'Thank you for applying! Your course brochure has been downloaded. Our admissions counsellor will contact you within one business day.',
+  brochureUrl: '/course-brochure.pdf',
+  brochureFileName: 'Aerostar-Course-Brochure.pdf',
+} as const
 
 export const franchiseCopy = {
   hero: {

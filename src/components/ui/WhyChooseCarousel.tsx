@@ -106,14 +106,36 @@ function getIndexForScroll(targets: number[], scroll: number) {
   return activeIndex
 }
 
-function getActiveIndex(scroller: HTMLDivElement) {
+function getPhysicalIndex(scroller: HTMLDivElement, slideCount: number) {
   const slides = getSlides(scroller)
   if (!slides.length) return 0
 
   const step = getSlideStep(scroller)
   if (step <= 0) return 0
 
-  return Math.max(0, Math.min(slides.length - 1, Math.round(scroller.scrollLeft / step)))
+  return Math.max(0, Math.min(slideCount - 1, Math.round(scroller.scrollLeft / step)))
+}
+
+function getLogicalIndex(physicalIndex: number, itemCount: number) {
+  if (itemCount <= 0) return 0
+  return ((physicalIndex % itemCount) + itemCount) % itemCount
+}
+
+function normalizeInfiniteScroll(scroller: HTMLDivElement, itemCount: number) {
+  if (itemCount <= 0) return 0
+
+  const physicalIndex = getPhysicalIndex(scroller, itemCount * 2)
+  if (physicalIndex >= itemCount) {
+    const normalizedIndex = physicalIndex - itemCount
+    scroller.scrollLeft = getSlideScrollTarget(scroller, normalizedIndex)
+    return normalizedIndex
+  }
+
+  return physicalIndex
+}
+
+function getActiveIndex(scroller: HTMLDivElement, itemCount: number) {
+  return getLogicalIndex(getPhysicalIndex(scroller, itemCount * 2), itemCount)
 }
 
 type WhyChooseCarouselProps = {
@@ -123,6 +145,8 @@ type WhyChooseCarouselProps = {
 export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const itemCount = items.length
+  const loopItems = itemCount > 0 ? [...items, ...items] : []
   const isDragging = useRef(false)
   const startX = useRef(0)
   const scrollLeftStart = useRef(0)
@@ -139,7 +163,7 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
 
   const animateToIndex = (scroller: HTMLDivElement, index: number) => {
     const slides = getSlides(scroller)
-    if (!slides.length) return
+    if (!slides.length || itemCount <= 0) return
 
     const clampedIndex = Math.max(0, Math.min(index, slides.length - 1))
     const target = getSlideScrollTarget(scroller, clampedIndex)
@@ -148,7 +172,8 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
 
     if (Math.abs(distance) < 1) {
       scroller.scrollLeft = target
-      setActiveIndex(clampedIndex)
+      const normalized = normalizeInfiniteScroll(scroller, itemCount)
+      setActiveIndex(getLogicalIndex(normalized, itemCount))
       return
     }
 
@@ -169,7 +194,8 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
       scroller.scrollLeft = target
       delete scroller.dataset.animating
       animationFrame.current = null
-      setActiveIndex(clampedIndex)
+      const normalized = normalizeInfiniteScroll(scroller, itemCount)
+      setActiveIndex(getLogicalIndex(normalized, itemCount))
     }
 
     animationFrame.current = requestAnimationFrame(step)
@@ -179,22 +205,23 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
     if (scroller.dataset.animating === 'true' || scroller.dataset.dragging === 'true') return
 
     const slides = getSlides(scroller)
-    if (!slides.length) return
+    if (!slides.length || itemCount <= 0) return
 
-    const index = getActiveIndex(scroller)
-    const target = getSlideScrollTarget(scroller, index)
+    const physicalIndex = getPhysicalIndex(scroller, itemCount * 2)
+    const target = getSlideScrollTarget(scroller, physicalIndex)
 
     if (Math.abs(scroller.scrollLeft - target) > 1) {
-      animateToIndex(scroller, index)
+      animateToIndex(scroller, physicalIndex)
       return
     }
 
-    setActiveIndex(index)
+    const normalized = normalizeInfiniteScroll(scroller, itemCount)
+    setActiveIndex(getLogicalIndex(normalized, itemCount))
   }
 
   const settleAfterDrag = (scroller: HTMLDivElement) => {
     const slides = getSlides(scroller)
-    if (!slides.length) return
+    if (!slides.length || itemCount <= 0) return
 
     const targets = getSlideTargets(scroller, slides)
     const scrollStart = scrollLeftStart.current
@@ -211,7 +238,16 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
       index = getIndexForScroll(targets, scrollEnd)
     }
 
-    index = Math.max(0, Math.min(index, slides.length - 1))
+    if (index < 0) {
+      scroller.scrollLeft = getSlideScrollTarget(scroller, itemCount * 2 - 1)
+      setActiveIndex(itemCount - 1)
+      return
+    }
+
+    if (index >= itemCount * 2) {
+      index = itemCount * 2 - 1
+    }
+
     animateToIndex(scroller, index)
   }
 
@@ -277,7 +313,7 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
 
     const onScroll = () => {
       if (scroller.dataset.animating === 'true') return
-      setActiveIndex(getActiveIndex(scroller))
+      setActiveIndex(getActiveIndex(scroller, itemCount))
     }
 
     const scheduleSnap = () => {
@@ -302,11 +338,12 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
       scroller.style.setProperty('--why-choose-slide-width', `${contentWidth}px`)
 
       const slides = getSlides(scroller)
-      if (!slides.length) return
+      if (!slides.length || itemCount <= 0) return
 
-      const index = Math.max(0, Math.min(getActiveIndex(scroller), slides.length - 1))
-      scroller.scrollLeft = getSlideScrollTarget(scroller, index)
-      setActiveIndex(index)
+      const physicalIndex = getPhysicalIndex(scroller, itemCount * 2)
+      const logicalIndex = getLogicalIndex(physicalIndex, itemCount)
+      scroller.scrollLeft = getSlideScrollTarget(scroller, logicalIndex)
+      setActiveIndex(logicalIndex)
     }
 
     const onResize = () => {
@@ -334,9 +371,9 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
       resizeObserver.disconnect()
       cancelAnimation()
     }
-  }, [items.length])
+  }, [itemCount])
 
-  const loop = [...items, ...items]
+  const marqueeLoop = [...items, ...items]
 
   return (
     <>
@@ -361,8 +398,11 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
             className="why-choose-carousel w-full min-w-0 cursor-grab overflow-x-hidden overflow-y-hidden overscroll-x-contain scrollbar-hide touch-pan-x select-none [&_*]:[webkit-user-drag:none] [&_img]:pointer-events-none"
           >
             <div className="why-choose-track-inner flex w-max flex-nowrap">
-              {items.map((item) => (
-                <div key={item.title.join(' ')} className="why-choose-carousel__slide shrink-0">
+              {loopItems.map((item, index) => (
+                <div
+                  key={`${item.title.join(' ')}-${index}`}
+                  className="why-choose-carousel__slide shrink-0"
+                >
                   <WhyChooseCard item={item} compact className="why-choose-carousel__card" />
                 </div>
               ))}
@@ -391,7 +431,7 @@ export default function WhyChooseCarousel({ items }: WhyChooseCarouselProps) {
       <div className="why-choose-marquee-wrap overflow-hidden">
         <div className="why-choose-marquee-track">
           <div className="scroll-row animate-why-choose-marquee flex w-max flex-nowrap gap-4 px-4">
-            {loop.map((item, index) => (
+            {marqueeLoop.map((item, index) => (
               <WhyChooseCard
                 key={`${item.title.join(' ')}-${index}`}
                 item={item}

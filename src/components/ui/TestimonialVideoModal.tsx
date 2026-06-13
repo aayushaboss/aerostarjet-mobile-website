@@ -1,5 +1,6 @@
-import { useEffect, useId, useRef, type RefObject } from 'react'
+import { useEffect, useId, useMemo, useRef, type RefObject } from 'react'
 import type { Testimonial } from '../../data/content'
+import { getInstagramReelEmbedUrl } from '../../utils/testimonialVideo'
 
 const CLOSE_MS = 250
 
@@ -24,6 +25,14 @@ export default function TestimonialVideoModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   const item = testimonials[activeIndex]
+  const instagramEmbedUrl = useMemo(
+    () =>
+      !item?.videoUrl && item?.instagramUrl
+        ? getInstagramReelEmbedUrl(item.instagramUrl)
+        : null,
+    [item?.instagramUrl, item?.videoUrl],
+  )
+  const usesInstagramEmbed = Boolean(instagramEmbedUrl)
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
@@ -42,6 +51,8 @@ export default function TestimonialVideoModal({
   }, [onClose])
 
   useEffect(() => {
+    if (usesInstagramEmbed) return
+
     const video = videoRef.current
     if (!video || !item?.videoUrl) return
 
@@ -58,7 +69,7 @@ export default function TestimonialVideoModal({
 
     video.addEventListener('loadeddata', playVideo, { once: true })
     return () => video.removeEventListener('loadeddata', playVideo)
-  }, [item?.videoUrl, activeIndex])
+  }, [item?.videoUrl, activeIndex, usesInstagramEmbed])
 
   useEffect(() => {
     if (isClosing) {
@@ -66,7 +77,7 @@ export default function TestimonialVideoModal({
     }
   }, [isClosing])
 
-  if (!item?.videoUrl) return null
+  if (!item || (!item.videoUrl && !instagramEmbedUrl)) return null
 
   return (
     <div
@@ -95,16 +106,28 @@ export default function TestimonialVideoModal({
           Testimonial video from {item.name}
         </h2>
 
-        <video
-          ref={videoRef}
-          className="testimonial-video-modal__video"
-          src={item.videoUrl}
-          width={1080}
-          height={1920}
-          playsInline
-          controls={false}
-          onEnded={onVideoEnded}
-        />
+        {usesInstagramEmbed && instagramEmbedUrl ? (
+          <iframe
+            className="testimonial-video-modal__embed"
+            src={instagramEmbedUrl}
+            title={`Instagram testimonial from ${item.name}`}
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            className="testimonial-video-modal__video"
+            src={item.videoUrl}
+            width={1080}
+            height={1920}
+            playsInline
+            controls
+            onEnded={onVideoEnded}
+          />
+        )}
       </div>
     </div>
   )

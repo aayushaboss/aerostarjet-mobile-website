@@ -5,7 +5,7 @@ import AlumniPlacementsMarquee from '../components/ui/AlumniPlacementsMarquee'
 import { PartnerTagGrid } from '../components/ui/PartnerMarquee'
 import PlacementsMarquee from '../components/ui/PlacementsMarquee'
 import CtaBanner from '../components/sections/CtaBanner'
-import { hiringPartners, placements } from '../data/content'
+import { alumniPlacementPhotos, hiringPartners, placements } from '../data/content'
 
 export default function PlacementsPage() {
   return (
@@ -34,7 +34,7 @@ export default function PlacementsPage() {
             From our classrooms to the world&apos;s best airlines.
           </h2>
         </div>
-        <AlumniPlacementsMarquee placements={placements} />
+        <AlumniPlacementsMarquee photos={alumniPlacementPhotos} />
       </section>
       <section className="mobile-listing-section stack-section bg-bg-light py-8">
         <h2 className="mobile-listing-section__intro text-heading-lg font-bold text-navy text-center">

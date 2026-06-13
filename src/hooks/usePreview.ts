@@ -14,6 +14,10 @@ import {
 
 const DEFAULT_WIDTH = PREVIEW_WIDTHS.mobile
 
+function normalizePreviewWidth(width: number) {
+  return PREVIEW_WIDTHS[getPreviewBreakpoint(width)]
+}
+
 export function usePreview() {
   const [searchParams, setSearchParams] = useSearchParams()
   const storedPreview = readPreviewStorage()
@@ -23,9 +27,9 @@ export function usePreview() {
 
   const previewWidth = useMemo(() => {
     if (urlPreview) {
-      return Number(searchParams.get('w') ?? DEFAULT_WIDTH)
+      return normalizePreviewWidth(Number(searchParams.get('w') ?? DEFAULT_WIDTH))
     }
-    return storedPreview?.width ?? DEFAULT_WIDTH
+    return normalizePreviewWidth(storedPreview?.width ?? DEFAULT_WIDTH)
   }, [searchParams, storedPreview?.width, urlPreview])
 
   const activeBreakpoint = useMemo(
@@ -42,12 +46,13 @@ export function usePreview() {
 
   const setPreviewWidth = useCallback(
     (width: number) => {
+      const normalizedWidth = normalizePreviewWidth(width)
       setPreviewDismissed(false)
       const next = new URLSearchParams(searchParams)
       next.set('preview', 'true')
-      next.set('w', String(width))
+      next.set('w', String(normalizedWidth))
       setSearchParams(next, { replace: true })
-      persistPreview(width)
+      persistPreview(normalizedWidth)
     },
     [persistPreview, searchParams, setSearchParams],
   )
@@ -85,11 +90,12 @@ export function usePreview() {
 
   const restorePreviewInUrl = useCallback(() => {
     if (urlPreview) {
-      const width = Number(searchParams.get('w') ?? DEFAULT_WIDTH)
+      const width = normalizePreviewWidth(Number(searchParams.get('w') ?? DEFAULT_WIDTH))
+      const currentW = searchParams.get('w')
 
-      if (!searchParams.get('w')) {
+      if (!currentW || currentW !== String(width)) {
         const next = new URLSearchParams(searchParams)
-        next.set('w', String(DEFAULT_WIDTH))
+        next.set('w', String(width))
         setSearchParams(next, { replace: true })
       }
 
@@ -99,9 +105,10 @@ export function usePreview() {
 
     const stored = readPreviewStorage()
     if (stored?.active) {
+      const width = normalizePreviewWidth(stored.width)
       const next = new URLSearchParams(searchParams)
       next.set('preview', 'true')
-      next.set('w', String(stored.width))
+      next.set('w', String(width))
       setSearchParams(next, { replace: true })
       return
     }

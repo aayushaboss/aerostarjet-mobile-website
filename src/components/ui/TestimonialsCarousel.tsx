@@ -9,6 +9,7 @@ import {
 } from 'react'
 import type { Testimonial } from '../../data/content'
 import { usePreview } from '../../hooks/usePreview'
+import { testimonialHasVideo } from '../../utils/testimonialVideo'
 import TestimonialVideoModal, {
   TESTIMONIAL_VIDEO_MODAL_CLOSE_MS,
 } from './TestimonialVideoModal'
@@ -104,27 +105,27 @@ function TestimonialCard({
   openOnClick = true,
 }: TestimonialCardProps) {
   const handleOpen = (trigger: HTMLElement) => {
-    if (!item.videoUrl) return
+    if (!testimonialHasVideo(item)) return
     onOpen?.(index, trigger)
   }
 
   return (
     <blockquote
       ref={cardRef}
-      tabIndex={onOpen && item.videoUrl ? 0 : undefined}
-      role={onOpen && item.videoUrl ? 'button' : undefined}
+      tabIndex={onOpen && testimonialHasVideo(item) ? 0 : undefined}
+      role={onOpen && testimonialHasVideo(item) ? 'button' : undefined}
       aria-label={
-        onOpen && item.videoUrl ? `Play testimonial video from ${item.name}` : undefined
+        onOpen && testimonialHasVideo(item) ? `Play testimonial video from ${item.name}` : undefined
       }
       onKeyDown={(event) => {
-        if (!onOpen || !item.videoUrl) return
+        if (!onOpen || !testimonialHasVideo(item)) return
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault()
           handleOpen(event.currentTarget)
         }
       }}
       onClick={(event) => {
-        if (!openOnClick || !onOpen || !item.videoUrl) return
+        if (!openOnClick || !onOpen || !testimonialHasVideo(item)) return
         event.stopPropagation()
         handleOpen(event.currentTarget)
       }}
@@ -135,6 +136,18 @@ function TestimonialCard({
       } ${className}`.trim()}
     >
       <div className="testimonial-card__video" aria-hidden="true">
+        {item.videoUrl ? (
+          <video
+            className="testimonial-card__preview"
+            src={item.videoUrl}
+            poster={item.posterUrl}
+            muted
+            playsInline
+            preload={item.posterUrl ? 'none' : 'metadata'}
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+        ) : null}
         <span className="testimonial-card__play" aria-hidden="true">
           ▶
         </span>
@@ -826,7 +839,7 @@ function TestimonialsFadeCarousel({
             }`}
             aria-hidden
           >
-            <TestimonialCard item={testimonials[incomingIndex]} index={incomingIndex} stacked className="h-full" />
+            <TestimonialCard item={testimonials[incomingIndex]} index={incomingIndex} stacked />
           </div>
         ) : null}
 
@@ -843,7 +856,7 @@ function TestimonialsFadeCarousel({
             }}
             aria-hidden
           >
-            <TestimonialCard item={testimonials[peekIndex]} index={peekIndex} stacked className="h-full" />
+            <TestimonialCard item={testimonials[peekIndex]} index={peekIndex} stacked />
           </div>
         ) : null}
 
@@ -863,7 +876,6 @@ function TestimonialsFadeCarousel({
             item={testimonials[topIndex]}
             index={topIndex}
             stacked
-            className="h-full"
             openOnClick={false}
             onOpen={onOpenVideo}
           />

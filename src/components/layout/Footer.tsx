@@ -39,7 +39,11 @@ export default function Footer() {
       <div className="shell-footer-inner mx-auto w-full px-4">
         <div className="footer-main">
           <div className="footer-brand">
-            <img src={assets.logo} alt="Aerostar" className="h-8 brightness-0 invert" />
+            <img
+              src={assets.footerLogo}
+              alt="Aerostar Aviation Academy"
+              className="footer-brand__logo"
+            />
             <p className="text-description text-white/82">
               Aerostar Aviation Academy is Gujarat&apos;s leading training institute for Aviation,
               Hospitality and Tours & Travel. Approved training partner of NSDC and Skill India.

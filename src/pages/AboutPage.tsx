@@ -9,6 +9,7 @@ import {
   blogPosts,
   branches,
   contactCopy,
+  founderCopy,
   homepageNewsCopy,
 } from '../data/content'
 
@@ -18,6 +19,28 @@ export default function AboutPage() {
       <section className="stack-hero bg-primary-alt px-4 py-8 text-surface">
         <h1 className="text-[1.75rem] font-bold">About Us</h1>
         <p className="text-description text-white/85">Training for Excellence in Air and Hospitality Service</p>
+      </section>
+
+      <section className="stack-section px-4 py-10">
+        <div className="about-founder-layout">
+          <div className="about-founder-layout__media">
+            <img
+              src={assets.founderSheetalJadeja}
+              alt="Dr. Sheetal Jadeja, Founder of Aerostar Aviation Academy"
+              className="about-founder-layout__image rounded-2xl"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div className="about-founder-layout__copy stack-copy">
+            <div className="stack-section-header">
+              <SectionLabel>{founderCopy.overline}</SectionLabel>
+              <h2 className="text-heading-lg font-extrabold text-navy-deep">{founderCopy.name}</h2>
+              <p className="text-sm font-bold text-navy-deep">{founderCopy.title}</p>
+            </div>
+            <p className="text-description leading-6 text-body">{founderCopy.description}</p>
+          </div>
+        </div>
       </section>
 
       <section className="stack-section px-4 py-10">
@@ -50,8 +73,8 @@ export default function AboutPage() {
           </h2>
         </div>
         <div className="blog-cards-grid about-news-cards">
-          {blogPosts.slice(0, 3).map((post, index) => (
-            <BlogCard key={post.slug} post={post} index={index} />
+          {blogPosts.slice(0, 3).map((post) => (
+            <BlogCard key={post.slug} post={post} />
           ))}
         </div>
         <div className="mobile-listing-section__intro text-center">

@@ -9,7 +9,61 @@ export type BlogPost = {
   title: string
   date: string
   excerpt: string
+  image: string
+  imageAlt: string
   blocks: BlogBlock[]
+}
+
+const blogFallback = {
+  image: '/assets/about.png',
+  imageAlt: 'Aerostar Aviation Academy blog',
+} as const
+
+const blogImagesBySlug: Record<string, { image: string; imageAlt: string }> = {
+  'air-hostess-training-institutes-in-ahmedabad-build-your-career-in-aviation': {
+    image: '/assets/blogs/blog-air-hostess-ahmedabad.jpg',
+    imageAlt: 'Air hostess courses in Ahmedabad — Aerostar Aviation Academy',
+  },
+  'tours-travelling-course-in-ahmedabad-build-a-career-in-the-travel-and-tourism-industry': {
+    image: '/assets/blogs/blog-tours-travel-courses.jpg',
+    imageAlt: 'Tours and travel courses — gateway to a global career in travel and tourism',
+  },
+  'build-your-future-with-the-top-tours-travel-management-institute-in-ahmedabad': {
+    image: '/assets/blogs/blog-tours-travel-management-institute.jpg',
+    imageAlt: 'Top tours and travel management institute in Ahmedabad',
+  },
+  'bright-career-in-hospitality': {
+    image: '/assets/blogs/blog-hotel-management-ahmedabad.jpg',
+    imageAlt: 'Hotel management course in Ahmedabad — build a career in hospitality',
+  },
+  'complete-guide-to-choosing-the-best-fashion-interior-designing-course-in-ahmedabad': {
+    image: '/assets/blogs/blog-fashion-interior-design-guide.jpg',
+    imageAlt: 'Complete guide to choosing the best fashion and interior designing course',
+  },
+  'start-your-cabin-crew-career': {
+    image: '/assets/blogs/blog-cabin-crew-career.jpg',
+    imageAlt: 'Airhostess and cabin crew training — gateway to an aviation career',
+  },
+  'the-best-hospitality-and-travel-management-courses-for-a-dream-career': {
+    image: '/assets/blogs/blog-hospitality-travel-management.jpg',
+    imageAlt: 'Hospitality and travel management courses for a dream career',
+  },
+  'everything-you-need-to-know-about-the-private-pilot-license-course-in-india': {
+    image: '/assets/blogs/blog-private-pilot-license.jpg',
+    imageAlt: 'Private Pilot License course in India — aviation training guide',
+  },
+  'welcome-to-aerostar-aviation-academy-learn-expertise-and-fly-high': {
+    image: '/assets/blogs/blog-welcome-aerostar-academy.jpg',
+    imageAlt: 'Welcome to Aerostar Aviation Academy — learn, expertise, and fly high',
+  },
+  'personality-industry-hospitality-tours-travel-industry': {
+    image: '/assets/blogs/blog-personality-development.jpg',
+    imageAlt: 'Personality development for hospitality, tours and travel careers',
+  },
+  'get-ready-with-the-best-cabin-crew-training-institution': {
+    image: '/assets/blogs/blog-cabin-crew-training-institution.jpg',
+    imageAlt: 'Best cabin crew training institution — get placement-ready',
+  },
 }
 
 function firstParagraph(blocks: BlogBlock[]) {
@@ -531,6 +585,8 @@ export const blogPosts = [
   ...post,
   blocks: post.blocks as BlogBlock[],
   excerpt: firstParagraph(post.blocks as BlogBlock[]),
+  image: blogImagesBySlug[post.slug]?.image ?? blogFallback.image,
+  imageAlt: blogImagesBySlug[post.slug]?.imageAlt ?? post.title,
 })) as BlogPost[]
 
 export function getBlogBySlug(slug: string): BlogPost | undefined {

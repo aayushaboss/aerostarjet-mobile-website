@@ -7,15 +7,15 @@ export default function BlogsPage() {
 
   return (
     <PageLayout>
-      <section className="stack-hero bg-primary-alt px-4 py-8 text-surface">
+      <section className="blogs-hero-section stack-hero bg-primary-alt py-8 text-surface">
         <h1 className="text-[1.75rem] font-bold">{blogsCopy.heading}</h1>
         <p className="text-description text-white/85">{blogsCopy.subheading}</p>
       </section>
 
-      <section className="mobile-listing-section py-8">
+      <section className="blogs-listing-section mobile-listing-section py-8">
         <div className="blog-cards-grid mb-0">
-          {posts.map((post, index) => (
-            <BlogCard key={post.slug} post={post} index={index} />
+          {posts.map((post) => (
+            <BlogCard key={post.slug} post={post} />
           ))}
         </div>
       </section>
