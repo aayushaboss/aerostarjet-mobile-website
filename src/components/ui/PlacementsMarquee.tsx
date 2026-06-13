@@ -6,6 +6,11 @@ type PlacementsMarqueeProps = {
 }
 
 function PlacementCard({ placement }: { placement: PlacementStory }) {
+  const logoSrc = placement.employerLogo ?? assets.placementIcon
+  const logoAlt = placement.employerLogoAlt ?? `${placement.role} logo`
+  const isFallbackLogo = !placement.employerLogo
+  const logoScale = placement.employerLogoScale ?? 0.85
+
   return (
     <article className="placement-card w-[64vw] max-w-[210px] shrink-0 overflow-hidden rounded-lg border border-border-alt bg-surface shadow-md">
       <div className="placement-card__media relative w-full bg-bg-avatar">
@@ -26,8 +31,16 @@ function PlacementCard({ placement }: { placement: PlacementStory }) {
           <p className="placement-card__name">{placement.name}</p>
           <p className="placement-card__role">{placement.role}</p>
         </div>
-        <div className="flex size-6 shrink-0 items-center justify-center rounded-lg bg-bg-avatar">
-          <img alt="" className="size-3" aria-hidden src={assets.placementIcon} />
+        <div className="placement-card__logo-slot flex size-6 shrink-0 items-center justify-center rounded-lg bg-bg-avatar">
+          <img
+            className="placement-card__employer-logo"
+            src={logoSrc}
+            alt={isFallbackLogo ? '' : logoAlt}
+            aria-hidden={isFallbackLogo || undefined}
+            style={{ transform: `scale(${logoScale})` }}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </article>
@@ -57,7 +70,7 @@ function PlacementMarqueeSet({
 
 export default function PlacementsMarquee({ placements }: PlacementsMarqueeProps) {
   return (
-    <div className="placements-marquee-wrap -mx-4 overflow-hidden">
+    <div className="placements-marquee-wrap overflow-hidden">
       <div className="placements-marquee-track">
         <div className="scroll-row animate-placements-marquee flex w-max flex-nowrap">
           <PlacementMarqueeSet placements={placements} leading />

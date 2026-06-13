@@ -14,16 +14,18 @@ const PREVIEW_BUTTONS: Record<PreviewBreakpoint, string> = {
 }
 
 export default function PreviewBar() {
-  const { activeBreakpoint, exitPreview, previewWidth, setPreviewBreakpoint } = usePreview()
+  const { activeBreakpoint, exitPreview, isPreview, previewWidth, setPreviewBreakpoint } = usePreview()
 
   return (
     <div className="preview-bar" role="region" aria-label="Responsive preview controls">
       <div className="preview-bar__inner">
-        <span className="preview-bar__label">Preview: {PREVIEW_LABELS[activeBreakpoint]}</span>
+        <span className="preview-bar__label">
+          {isPreview ? `Preview: ${PREVIEW_LABELS[activeBreakpoint]}` : 'Responsive preview'}
+        </span>
         <div className="preview-bar__actions">
           {(Object.keys(PREVIEW_WIDTHS) as PreviewBreakpoint[]).map((breakpoint) => {
             const width = PREVIEW_WIDTHS[breakpoint]
-            const isActive = previewWidth === width
+            const isActive = isPreview && previewWidth === width
 
             return (
               <button
@@ -36,9 +38,11 @@ export default function PreviewBar() {
               </button>
             )
           })}
-          <button type="button" className="preview-bar__btn preview-bar__btn--ghost" onClick={exitPreview}>
-            Exit preview
-          </button>
+          {isPreview ? (
+            <button type="button" className="preview-bar__btn preview-bar__btn--ghost" onClick={exitPreview}>
+              Exit preview
+            </button>
+          ) : null}
         </div>
       </div>
     </div>

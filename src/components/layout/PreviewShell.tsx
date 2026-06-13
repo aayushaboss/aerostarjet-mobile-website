@@ -10,7 +10,8 @@ type PreviewShellProps = {
 
 export default function PreviewShell({ children }: PreviewShellProps) {
   const location = useLocation()
-  const { isPreview, previewWidth, activeBreakpoint, enablePreview, restorePreviewInUrl } = usePreview()
+  const { isPreview, previewWidth, activeBreakpoint, restorePreviewInUrl } = usePreview()
+  const showDevControls = import.meta.env.DEV
 
   useLayoutEffect(() => {
     restorePreviewInUrl()
@@ -29,25 +30,16 @@ export default function PreviewShell({ children }: PreviewShellProps) {
 
   if (!isPreview) {
     return (
-      <>
+      <div className={showDevControls ? 'preview-shell preview-shell--bar-only' : undefined}>
+        {showDevControls ? <PreviewBar /> : null}
         {children}
-        {import.meta.env.DEV ? (
-          <button
-            type="button"
-            className="preview-launch"
-            onClick={() => enablePreview()}
-            aria-label="Open responsive preview"
-          >
-            Responsive preview
-          </button>
-        ) : null}
-      </>
+      </div>
     )
   }
 
   return (
     <div className="preview-canvas">
-      <PreviewBar />
+      {showDevControls ? <PreviewBar /> : null}
       <div
         className="preview-frame"
         style={{ width: '100%', maxWidth: `${previewWidth}px` }}

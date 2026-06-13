@@ -7,9 +7,9 @@ const footerLinks = [
   { label: 'Home', to: '/' },
   { label: 'Placements', to: '/placements' },
   { label: 'Blogs', to: '/blogs' },
-  { label: 'Courses', to: '/courses' },
   { label: 'About Us', to: '/about' },
   { label: 'Apply', to: '/apply' },
+  { label: 'Courses', to: '/courses' },
 ] as const
 
 export default function Footer() {
@@ -53,30 +53,11 @@ export default function Footer() {
           <div className="footer-explore">
             <h5 className="text-body font-medium text-surface">Explore</h5>
             <nav className="footer-explore-links" aria-label="Footer explore links">
-              {mobileLayout ? (
-                <>
-                  <div className="footer-explore-links-row">
-                    {footerLinks.slice(0, 3).map((link) => (
-                      <PreviewLink key={link.label} to={link.to} className="footer-link">
-                        {link.label}
-                      </PreviewLink>
-                    ))}
-                  </div>
-                  <div className="footer-explore-links-row">
-                    {footerLinks.slice(3).map((link) => (
-                      <PreviewLink key={link.label} to={link.to} className="footer-link">
-                        {link.label}
-                      </PreviewLink>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                footerLinks.map((link) => (
-                  <PreviewLink key={link.label} to={link.to} className="footer-link">
-                    {link.label}
-                  </PreviewLink>
-                ))
-              )}
+              {footerLinks.map((link) => (
+                <PreviewLink key={link.label} to={link.to} className="footer-link">
+                  {link.label}
+                </PreviewLink>
+              ))}
             </nav>
           </div>
         </div>

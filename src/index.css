@@ -646,6 +646,10 @@ html[data-preview='true'] body {
   padding: 52px 16px 24px;
 }
 
+.preview-shell--bar-only {
+  padding-top: 52px;
+}
+
 .preview-frame {
   margin-inline: auto;
   overflow-x: hidden;
@@ -3312,7 +3316,6 @@ main div:has(> .text-label) + p.text-description {
 
   .site-footer .footer-explore-links {
     gap: 8px 24px;
-    padding-right: 127px;
   }
 }
 
@@ -3341,13 +3344,8 @@ main div:has(> .text-label) + p.text-description {
   padding-inline: 8px;
 }
 
-/* Courses filters — align showing count with first category chip on mobile */
+/* Courses filters — mobile chip sizing */
 @media (max-width: 767px) {
-  html:not([data-preview='true']) .courses-listing-section .courses-filters {
-    padding-left: 24px;
-    padding-right: 0;
-  }
-
   html:not([data-preview='true']) .courses-filters .horizontal-scroll {
     padding-inline: 0 !important;
     margin-inline: 0;
@@ -3371,11 +3369,6 @@ main div:has(> .text-label) + p.text-description {
     padding: 2px 5px;
     font-size: 10px;
   }
-}
-
-html[data-preview='true'][data-preview-width='375'] .courses-listing-section .courses-filters {
-  padding-left: 24px;
-  padding-right: 0;
 }
 
 html[data-preview='true'][data-preview-width='375'] .courses-filters .horizontal-scroll {
@@ -3866,8 +3859,7 @@ html[data-preview='true'][data-preview-width='375'] .blog-cards-grid > * h2 {
 
 /* Bleed carousels — cancel section padding at tablet+ */
 @media (min-width: 768px) {
-  html:not([data-preview='true']) .testimonials-carousel-wrap,
-  html:not([data-preview='true']) .placements-marquee-wrap {
+  html:not([data-preview='true']) .testimonials-carousel-wrap {
     margin-inline: calc(-1 * clamp(32px, 5vw, 48px));
   }
 
@@ -3916,8 +3908,7 @@ html[data-preview='true'][data-preview-width='375'] .blog-cards-grid > * h2 {
     padding-inline: 0 !important;
   }
 
-  html[data-preview='true'][data-preview-width='768'] .testimonials-carousel-wrap,
-  html[data-preview='true'][data-preview-width='768'] .placements-marquee-wrap {
+  html[data-preview='true'][data-preview-width='768'] .testimonials-carousel-wrap {
     margin-inline: calc(-1 * clamp(32px, 5vw, 48px));
   }
 
@@ -3931,8 +3922,7 @@ html[data-preview='true'][data-preview-width='375'] .blog-cards-grid > * h2 {
 }
 
 @media (min-width: 1200px) {
-  html:not([data-preview='true']) .testimonials-carousel-wrap,
-  html:not([data-preview='true']) .placements-marquee-wrap {
+  html:not([data-preview='true']) .testimonials-carousel-wrap {
     margin-inline: -48px;
   }
 
@@ -3948,8 +3938,7 @@ html[data-preview='true'][data-preview-width='375'] .blog-cards-grid > * h2 {
     gap: 16px;
   }
 
-  html[data-preview='true'][data-preview-width='1200'] .testimonials-carousel-wrap,
-  html[data-preview='true'][data-preview-width='1200'] .placements-marquee-wrap {
+  html[data-preview='true'][data-preview-width='1200'] .testimonials-carousel-wrap {
     margin-inline: -48px;
   }
 
@@ -4431,15 +4420,13 @@ html[data-preview='true'][data-preview-width='375'] .blog-cards-grid > * h2 {
     width: 100%;
     margin-inline: 0;
     padding: 0;
-    overflow: visible;
+    overflow: hidden;
     scrollbar-width: none;
   }
 
   html:not([data-preview='true']) .placements-marquee-track {
-    margin: 0 48px;
+    margin: 0;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
   }
 
   html:not([data-preview='true']) .placements-marquee-wrap .scroll-row {
@@ -4997,15 +4984,13 @@ html[data-preview='true'][data-preview-width='1200'] .placements-marquee-wrap {
   width: 100%;
   margin-inline: 0;
   padding: 0;
-  overflow: visible;
+  overflow: hidden;
   scrollbar-width: none;
 }
 
 html[data-preview='true'][data-preview-width='1200'] .placements-marquee-track {
-  margin: 0 48px;
+  margin: 0;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
 }
 
 html[data-preview='true'][data-preview-width='1200'] .placements-marquee-wrap .scroll-row {
@@ -5192,6 +5177,20 @@ html[data-preview='true'][data-preview-width='1200'] .cta-banner {
   overflow: visible;
   text-overflow: clip;
   white-space: normal;
+}
+
+.placement-card__logo-slot {
+  overflow: hidden;
+}
+
+.placement-card__employer-logo {
+  display: block;
+  width: 18px;
+  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
+  object-fit: contain;
+  object-position: center;
 }
 
 /* Square thumbnail card media (1:1) — mobile only */
@@ -5861,7 +5860,6 @@ html[data-preview='true'][data-preview-width='768'] .site-footer .footer-explore
   justify-content: flex-start;
   gap: 8px 24px;
   box-sizing: border-box;
-  padding-right: 127px;
 }
 
 html[data-preview='true'][data-preview-width='768'] .site-footer .footer-legal {
@@ -5904,28 +5902,6 @@ html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explor
 
 html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explore > h5 {
   margin-bottom: 8px;
-}
-
-html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explore-links {
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
-  column-gap: 32px;
-  row-gap: 8px;
-  justify-content: flex-start;
-  box-sizing: border-box;
-  padding-right: 24px;
-}
-
-html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explore-links .footer-link:nth-child(4) {
-  order: 6;
-}
-
-html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explore-links .footer-link:nth-child(5) {
-  order: 4;
-}
-
-html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explore-links .footer-link:nth-child(6) {
-  order: 5;
 }
 
 html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-legal {
@@ -6308,8 +6284,6 @@ html[data-preview='true'][data-preview-width='768'] main > section.courses-hero-
 html[data-preview='true'][data-preview-width='1200'] main > section.courses-hero-section.bg-primary-alt.text-surface {
   padding-top: 48px !important;
   padding-bottom: 48px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
 }
 
 /* ==========================================================================
@@ -7818,8 +7792,6 @@ html[data-preview='true'][data-preview-width='768'] main > section.courses-hero-
 html[data-preview='true'][data-preview-width='1200'] main > section.courses-hero-section.bg-primary-alt.text-surface {
   padding-top: 48px !important;
   padding-bottom: 48px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
 }
 
 html:not([data-preview='true']) .courses-hero-section .page-hero-layout nav,
@@ -7856,7 +7828,6 @@ html[data-preview='true'][data-preview-width='375'] .courses-listing-section .co
 html[data-preview='true'][data-preview-width='768'] .courses-listing-section .courses-filters,
 html[data-preview='true'][data-preview-width='1200'] .courses-listing-section .courses-filters {
   padding-top: 24px !important;
-  padding-left: 24px !important;
 }
 
 /* About page news — 2 cards below desktop, 3 centered on desktop */
@@ -7938,7 +7909,7 @@ html[data-preview='true'][data-preview-width='375'] .about-founder-layout__copy 
 /* Courses listing — grouped category sections (All courses view) */
 .courses-category-heading {
   margin: 0 0 12px;
-  padding-inline: 16px;
+  padding-inline: 0;
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
@@ -8172,11 +8143,17 @@ html[data-preview='true'][data-preview-width='1200'] .testimonials-fade-stage .t
   }
 }
 
+/* Placements page — marquees share section padding inset (no bleed) */
+.placements-marquee-wrap,
 .alumni-marquee-wrap {
   overflow: hidden;
   width: 100%;
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  margin-inline: 0;
+  padding: 0;
+}
+
+.placements-marquee-track {
+  overflow: hidden;
 }
 
 .alumni-marquee-track {
@@ -8861,54 +8838,6 @@ html[data-preview='true'][data-preview-width='1200'] .faq-section .divide-y > di
 
 .site-footer.site-footer--mobile-layout .footer-brand > p {
   max-width: none !important;
-}
-
-.site-footer.site-footer--mobile-layout .footer-explore {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-  width: 100%;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-.site-footer.site-footer--mobile-layout .footer-explore > h5 {
-  margin-bottom: 0;
-  width: 100%;
-  text-align: center !important;
-}
-
-.site-footer.site-footer--mobile-layout .footer-explore-links {
-  display: flex !important;
-  flex-direction: column !important;
-  flex-wrap: nowrap !important;
-  justify-content: center !important;
-  align-items: center !important;
-  column-gap: 8px !important;
-  row-gap: 8px !important;
-  gap: 8px !important;
-  width: 100%;
-  max-width: 100%;
-  padding-right: 0 !important;
-  box-sizing: border-box;
-}
-
-.site-footer.site-footer--mobile-layout .footer-explore-links-row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-  align-items: center !important;
-  column-gap: 8px !important;
-  row-gap: 8px !important;
-  gap: 8px !important;
-  width: 100%;
-}
-
-.site-footer.site-footer--mobile-layout .footer-explore-links-row > .footer-link {
-  display: inline-flex !important;
-  flex: 0 0 auto !important;
-  margin: 0 !important;
 }
 
 /* Admission form — center "Get In Touch" submit on mobile */
@@ -11128,6 +11057,32 @@ html[data-preview='true'][data-preview-width='1200'] main > section.blogs-listin
   padding-inline: 48px !important;
 }
 
+main > section.courses-listing-section,
+html:not([data-preview='true']) main > section.courses-listing-section,
+html[data-preview='true'][data-preview-width='375'] main > section.courses-listing-section {
+  padding-inline: var(--space-section-x) !important;
+}
+
+@media (min-width: 768px) {
+  html:not([data-preview='true']) main > section.courses-listing-section {
+    padding-inline: clamp(32px, 5vw, 48px) !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  html:not([data-preview='true']) main > section.courses-listing-section {
+    padding-inline: 48px !important;
+  }
+}
+
+html[data-preview='true'][data-preview-width='768'] main > section.courses-listing-section {
+  padding-inline: 32px !important;
+}
+
+html[data-preview='true'][data-preview-width='1200'] main > section.courses-listing-section {
+  padding-inline: 48px !important;
+}
+
 html:not([data-preview='true']) .courses-listing-section .courses-filters,
 html[data-preview='true'][data-preview-width='375'] .courses-listing-section .courses-filters,
 html[data-preview='true'][data-preview-width='768'] .courses-listing-section .courses-filters,
@@ -11156,6 +11111,18 @@ html[data-preview='true'][data-preview-width='375'] .courses-listing-section .co
 html[data-preview='true'][data-preview-width='768'] .courses-listing-section .courses-grid,
 html[data-preview='true'][data-preview-width='1200'] .courses-listing-section .courses-grid {
   padding-inline: 0 !important;
+}
+
+html:not([data-preview='true']) .courses-listing-section .courses-filters .horizontal-scroll,
+html:not([data-preview='true']) .courses-listing-section .courses-filters .course-categories-scroll,
+html[data-preview='true'][data-preview-width='375'] .courses-listing-section .courses-filters .horizontal-scroll,
+html[data-preview='true'][data-preview-width='768'] .courses-listing-section .courses-filters .horizontal-scroll,
+html[data-preview='true'][data-preview-width='1200'] .courses-listing-section .courses-filters .horizontal-scroll,
+html[data-preview='true'][data-preview-width='375'] .courses-listing-section .courses-filters .course-categories-scroll,
+html[data-preview='true'][data-preview-width='768'] .courses-listing-section .courses-filters .course-categories-scroll,
+html[data-preview='true'][data-preview-width='1200'] .courses-listing-section .courses-filters .course-categories-scroll {
+  padding-inline: 0 !important;
+  margin-inline: 0;
 }
 
 /* Blog card thumbnails — edge-to-edge fill in media container */
@@ -11222,5 +11189,71 @@ html:not([data-preview='true']) .testimonials-fade-stage .testimonial-card__meta
 html[data-preview='true'][data-preview-width='768'] .testimonials-fade-stage .testimonial-card__meta,
 html[data-preview='true'][data-preview-width='1200'] .testimonials-fade-stage .testimonial-card__meta {
   max-width: var(--testimonial-video-width) !important;
+}
+
+/* Footer Explore — 2×3 grid, left-aligned with heading (all breakpoints) */
+.site-footer .footer-explore {
+  align-items: flex-start !important;
+  text-align: left !important;
+  width: 100%;
+  min-width: 0;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.site-footer .footer-explore > h5 {
+  margin: 0 0 8px !important;
+  width: 100%;
+  text-align: left !important;
+}
+
+.site-footer .footer-explore-links {
+  display: grid !important;
+  grid-template-columns: repeat(3, max-content) !important;
+  column-gap: 20px !important;
+  row-gap: 8px !important;
+  justify-content: start !important;
+  align-items: start !important;
+  justify-items: start !important;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0 !important;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  html:not([data-preview='true']) .site-footer .footer-explore-links {
+    column-gap: 24px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  html:not([data-preview='true']) .site-footer .footer-explore-links {
+    column-gap: 32px !important;
+  }
+}
+
+html[data-preview='true'][data-preview-width='768'] .site-footer .footer-explore-links {
+  column-gap: 24px !important;
+}
+
+html[data-preview='true'][data-preview-width='1200'] .site-footer .footer-explore-links {
+  column-gap: 32px !important;
+}
+
+.site-footer.site-footer--mobile-layout .footer-explore,
+.site-footer.site-footer--mobile-layout .footer-explore > h5,
+.site-footer.site-footer--mobile-layout .footer-explore-links {
+  align-items: flex-start !important;
+  text-align: left !important;
+  justify-content: start !important;
+  justify-items: start !important;
+}
+
+.site-footer .footer-explore-links > .footer-link {
+  justify-self: start;
+  margin: 0 !important;
 }
 

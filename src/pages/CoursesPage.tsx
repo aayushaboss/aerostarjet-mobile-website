@@ -107,7 +107,7 @@ export default function CoursesPage() {
 
   return (
     <PageLayout>
-      <section className="courses-hero-section relative overflow-hidden bg-primary-alt px-4 text-surface">
+      <section className="courses-hero-section stack-hero relative overflow-hidden bg-primary-alt py-8 text-surface">
         <div className="absolute -right-16 -top-16 size-48 rounded-full bg-white/8" />
         <div className="page-hero-layout relative">
           <div>

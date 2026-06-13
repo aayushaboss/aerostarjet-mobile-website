@@ -63,6 +63,9 @@ export type PlacementStory = {
   role: string
   image?: string
   imageAlt?: string
+  employerLogo?: string
+  employerLogoAlt?: string
+  employerLogoScale?: number
 }
 
 export type AlumniPlacementPhoto = {
@@ -529,36 +532,54 @@ export const placements: PlacementStory[] = [
     role: 'Ahmedabad International Airport',
     image: assets.placementMiliKandachiya,
     imageAlt: 'Mili Kandachiya placed at Ahmedabad International Airport',
+    employerLogo: assets.hiringPartnerAdaniAirports,
+    employerLogoAlt: 'Adani Airports logo',
+    employerLogoScale: 0.68,
   },
   {
     name: 'Mausin Sharfi',
     role: 'Spice Jet',
     image: assets.placementMausinSharfi,
     imageAlt: 'Mausin Sharfi placed at Spice Jet',
+    employerLogo: assets.hiringPartnerSpicejet,
+    employerLogoAlt: 'SpiceJet logo',
+    employerLogoScale: 1.0,
   },
   {
     name: 'Stuti Upadhyay',
     role: 'Ahmedabad International Airport',
     image: assets.placementStutiUpadhyay,
     imageAlt: 'Stuti Upadhyay placed at Ahmedabad International Airport',
+    employerLogo: assets.hiringPartnerAdaniAirports,
+    employerLogoAlt: 'Adani Airports logo',
+    employerLogoScale: 0.68,
   },
   {
     name: 'Ashok Sen',
     role: 'Ahmedabad International Airport',
     image: assets.placementAshokSen,
     imageAlt: 'Ashok Sen placed at Ahmedabad International Airport',
+    employerLogo: assets.hiringPartnerAdaniAirports,
+    employerLogoAlt: 'Adani Airports logo',
+    employerLogoScale: 0.68,
   },
   {
     name: 'Hussain Sabuwala',
     role: 'Indigo',
     image: assets.placementHussainSabuwala,
     imageAlt: 'Hussain Sabuwala placed at Indigo',
+    employerLogo: assets.hiringPartnerIndigo,
+    employerLogoAlt: 'IndiGo logo',
+    employerLogoScale: 0.73,
   },
   {
     name: 'Sameer Rana',
     role: 'Ahmedabad International Airport',
     image: assets.placementSameerRana,
     imageAlt: 'Sameer Rana placed at Ahmedabad International Airport',
+    employerLogo: assets.hiringPartnerAdaniAirports,
+    employerLogoAlt: 'Adani Airports logo',
+    employerLogoScale: 0.68,
   },
 ]
 

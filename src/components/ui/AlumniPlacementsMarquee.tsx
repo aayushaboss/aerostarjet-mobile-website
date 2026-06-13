@@ -31,7 +31,7 @@ export default function AlumniPlacementsMarquee({ photos }: AlumniPlacementsMarq
   const loop = [...photos, ...photos]
 
   return (
-    <div className="alumni-marquee-wrap">
+    <div className="alumni-marquee-wrap overflow-hidden">
       <div className="alumni-marquee-track">
         {loop.map((photo, index) => (
           <AlumniPlacementCard
